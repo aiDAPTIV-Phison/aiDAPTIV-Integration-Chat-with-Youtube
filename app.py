@@ -20,14 +20,23 @@ def check_install_uv():
 
 def check_virtual_env():
     if not os.path.exists('.venv'):
-        print("[INFO] Virtual environment not found. Installing dependencies using uv...")
-        if os.path.exists('requirements.txt'):
-            print("[INFO] Installing main requirements...")
-            subprocess.check_call(['uv', 'pip', 'install', '-r', 'requirements.txt'])
-            print("[SUCCESS] All dependencies installed using uv")
+        print("[INFO] Virtual environment not found. Creating virtual environment...")
+        try:
+            subprocess.check_call(['uv', 'venv'])
+            print("[SUCCESS] Virtual environment created successfully")
+            
+            if os.path.exists('requirements.txt'):
+                print("[INFO] Installing dependencies from requirements.txt...")
+                subprocess.check_call(['uv', 'pip', 'install', '-r', 'requirements.txt'])
+                print("[SUCCESS] All dependencies installed successfully")
+            else:
+                print("[WARNING] requirements.txt not found, skipping dependency installation")
+        except subprocess.CalledProcessError as e:
+            print(f"[ERROR] Failed to create virtual environment or install dependencies: {e}")
+            sys.exit(1)
     else:
-        print("[SUCCESS] Virtual environment found, skipping dependency installation")
-
+        print("[SUCCESS] Virtual environment found in project root, skipping dependency installation")
+        
 def start_streamlit():
     if not os.path.exists('main.py'):
         print("Error: main.py not found")
