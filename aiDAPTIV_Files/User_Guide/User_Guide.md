@@ -36,3 +36,9 @@ uv pip install -r requirements.txt
 
 - Choose the video you want to add to the conversation and start asking questions.
 ![image](img/fig_4.PNG)
+
+3. **Advanced Features**
+   - Build .exe
+   ```bash
+    python build.py 
+    ```
