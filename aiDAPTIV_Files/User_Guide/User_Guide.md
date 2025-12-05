@@ -8,15 +8,14 @@ This application allows users to store video content in the KV Cache, enabling t
 
 ### Installation Steps
 
-```bash
-git clone <repository-url>
-cd aiDAPTIV-Integration-Chat-with-Youtube
+1. Download the `Installer.zip` file and extract its contents.
+2. Navigate to the `Installer` folder, your project structure should look like this:
 ```
-```bash
-uv venv
-uv pip install -r requirements.txt
+Installer/
+    ├── app.exe
+    └── video_data.json (optional)
 ```
-
+3. Launch the application by clicking on `app.exe`. The chat room will be automatically opened in your web browser.
 ---
 
 ## Chapter 2: How to Use?
@@ -37,8 +36,3 @@ uv pip install -r requirements.txt
 - Choose the video you want to add to the conversation and start asking questions.
 ![image](img/fig_4.PNG)
 
-3. **Advanced Features**
-   - Build .exe
-   ```bash
-    python build.py 
-    ```
