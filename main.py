@@ -1,7 +1,8 @@
 import streamlit as st
 import json
-import os
 import requests
+import sys
+from pathlib import Path
 from datetime import datetime
 from utils.parsing_yt import fetch_video_data
 
@@ -10,11 +11,15 @@ st.set_page_config(
     layout="wide"                        # Set layout to wide mode
 )
 
+# 可執行檔所在目錄（打包後）或目前檔案所在目錄（開發環境）
+APP_BASE_DIR = Path(sys.executable).parent if getattr(sys, 'frozen', False) else Path(__file__).parent.resolve()
+VIDEO_DATA_PATH = APP_BASE_DIR / "video_data.json"
+
 # Initialize session state
 if 'video_data' not in st.session_state:
     st.session_state.video_data = []
 if 'data_path' not in st.session_state:
-    st.session_state.data_path = "./aiDAPTIV_Files/Example/Files/video_data.json"
+    st.session_state.data_path = str(VIDEO_DATA_PATH)
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 if 'selected_video' not in st.session_state:
@@ -32,7 +37,8 @@ def count_tokens(text: str) -> int:
 def save_video_data_to_json(video_data: list, file_path: str):
     """Save video data to JSON file"""
     try:
-        with open(file_path, 'w', encoding='utf-8') as f:
+        path_obj = Path(file_path)
+        with open(path_obj, 'w', encoding='utf-8') as f:
             json.dump(video_data, f, ensure_ascii=False, indent=2)
     except Exception as e:
         st.error(f"Error saving JSON file: {e}")
@@ -40,8 +46,9 @@ def save_video_data_to_json(video_data: list, file_path: str):
 def load_video_data_from_json(file_path: str) -> list:
     """Load video data from JSON file"""
     try:
-        if os.path.exists(file_path):
-            with open(file_path, 'r', encoding='utf-8') as f:
+        path_obj = Path(file_path)
+        if path_obj.exists():
+            with open(path_obj, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return []
     except Exception as e:
