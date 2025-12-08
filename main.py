@@ -1,8 +1,9 @@
 import streamlit as st
 import json
-import requests
+import os
 import sys
 from pathlib import Path
+import requests
 from datetime import datetime
 from utils.parsing_yt import fetch_video_data
 
@@ -14,6 +15,11 @@ st.set_page_config(
 # 可執行檔所在目錄（打包後）或目前檔案所在目錄（開發環境）
 APP_BASE_DIR = Path(sys.executable).parent if getattr(sys, 'frozen', False) else Path(__file__).parent.resolve()
 VIDEO_DATA_PATH = APP_BASE_DIR / "video_data.json"
+
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.debug(f"VIDEO_DATA_PATH: {VIDEO_DATA_PATH}")
 
 # Initialize session state
 if 'video_data' not in st.session_state:
